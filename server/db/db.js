@@ -10,8 +10,11 @@ const pkg = require("../../package.json");
 console.log(chalk.yellow("Opening database connection"));
 
 // create the database instance that can be used in other database files
-const db = new Sequelize(`postgres://localhost:5432/${pkg.name}`, {
+const db = new Sequelize(`postgres://shawns21@localhost:5432/wizarding-schools-network`, {
   logging: false, // so we don't see all the SQL queries getting made
 });
 
-module.exports = db;
+module.exports = {
+  db, 
+  Sequelize
+};

@@ -1,4 +1,4 @@
-const { db } = require("./server/db");
+const { db, WizardingSchools, Students } = require("./server/db");
 const { green, red } = require("chalk");
 
 // require your models here
@@ -73,72 +73,63 @@ const students = [
     lastName: "Potter",
     email: "hpotter@hogwarts.co.uk",
     imageUrl: "https://i.ibb.co/tPqV51G/harry.webp",
-    gpa: 3.5,
-    campusId: 1,
+    magicalAbilityScore: 3.5,
   },
   {
     firstName: "Ronald",
     lastName: "Weasley",
     email: "rweasley@hogwarts.co.uk",
     imageUrl: "https://i.ibb.co/QmnT5fv/ron.jpg",
-    gpa: 2.7,
-    campusId: 1,
+    magicalAbilityScore: 2.7,
   },
   {
     firstName: "Hermione",
     lastName: "Granger",
     email: "hgranger@hogwarts.co.uk",
     imageUrl: "https://i.ibb.co/QdVQvYF/hermione-jpg.webp",
-    gpa: 4.3,
-    campusId: 1,
+    magicalAbilityScore: 4.3,
   },
   {
     firstName: "Dean",
     lastName: "Thomas",
     email: "dthomas@hogwarts.co.uk",
     imageUrl: "https://i.ibb.co/Z8wnwds/dean.jpg",
-    gpa: 3.8,
-    campusId: 1,
+    magicalAbilityScore: 3.8,
   },
   {
     firstName: "Padma",
     lastName: "Patil",
     email: "papatil@hogwarts.co.uk",
     imageUrl: "https://i.ibb.co/5BvhztF/padma.jpg",
-    gpa: 3.0,
-    campusId: 1,
+    magicalAbilityScore: 3.0,
   },
   {
     firstName: "Ginny",
     lastName: "Weasley",
     email: "gweasley@hogwarts.co.uk",
     imageUrl: "https://i.ibb.co/yf6nwqj/ginny.jpg",
-    gpa: 3.9,
-    campusId: 1,
+    magicalAbilityScore: 3.9,
   },
   {
     firstName: "Luna",
     lastName: "Lovegood",
     email: "llovegood@hogwarts.co.uk",
     imageUrl: "https://i.ibb.co/mTsjh1W/Luna.webp",
-    gpa: 3.9,
-    campusId: 1,
+    magicalAbilityScore: 3.9,
   },
   {
     firstName: "Viktor",
     lastName: "Krum",
     email: "vkrum@durmstrang.eu",
     imageUrl: "https://i.ibb.co/c2WNq2D/krum.webp",
-    gpa: 2.4,
-    campusId: 3,
+    magicalAbilityScore: 2.4,
   },
   {
     firstName: "Fluer",
     lastName: "Delacour",
     email: "fleur@beauxbatons.fr",
     imageUrl: "https://i.ibb.co/c2WNq2D/krum.webp",
-    gpa: 3.4,
-    campusId: 2,
+    magicalAbilityScore: 3.4,
   },
 ];
 
@@ -146,15 +137,20 @@ const seed = async () => {
   try {
     await db.sync({ force: true });
 
-    await Promise.all(
+    const createdSchools = await Promise.all(
       campuses.map((campus) => {
-        return Campuses.create(campus);
+        return WizardingSchools.create(campus);
       })
     );
 
     await Promise.all(
-      students.map((student) => {
-        return Students.create(student);
+
+      students.map( async (student) => {
+        const createdStudent = await Students.create(student)
+        const randomSchoolIndex = Math.floor(Math.random() * createdSchools.length);
+        const randomSchool = createdSchools[randomSchoolIndex];
+
+        await randomSchool.addStudent(createdStudent);
       })
     );
 
