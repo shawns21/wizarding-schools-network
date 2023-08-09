@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
-/* 
-    This is you entry point for your routes
-*/
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+
 
 const SchoolList = () => {
 
@@ -30,12 +29,4 @@ const SchoolList = () => {
   );
 };
 
-const Main = () => {
-  return (
-    <div>
-      <h1>Welcome to the Wizarding Schools Network!</h1>
-    </div>
-  );
-};
-
-export default Main;
+export default SchoolList;
