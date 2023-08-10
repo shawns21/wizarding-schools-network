@@ -29,14 +29,22 @@ const SchoolView = () => {
         <div>
             <img src={schoolDetails.imageUrl}/>
             <p>{schoolDetails.name}</p>
-            {schoolDetails.students.map((student) => (
-              <Link to={`/students/${student.id}`}>
-                <div>
-                  <img src={student.imageUrl} />
-                  <p>{student.firstName} {student.lastName}</p>
-                </div>
-              </Link>
-            ))}
+            <p>{schoolDetails.address}</p>
+            <p>{schoolDetails.description}</p>
+            <p>Students</p>
+
+            {schoolDetails.students.length > 0 ? (
+              schoolDetails.students.map((student) => (
+                <Link to={`/students/${student.id}`}>
+                  <div>
+                    <img src={student.imageUrl} />
+                    <p>{student.firstName} {student.lastName}</p>
+                  </div>
+                </Link>
+              ))
+            ) : (
+              <p>No Students</p>
+            )}
        </div>
       ) : (
         <p>School doesnt exist</p>

@@ -30,13 +30,18 @@ const StudentView = () => {
             <img src={studentDetails.imageUrl}/>
             <p>{studentDetails.firstName}, {studentDetails.lastName}</p>
             <p>{studentDetails.email}</p>
-            <p>{studentDetails.magicAbilityScore}</p> 
-            <Link to={`/schools/${studentDetails.wizardingschool.id}`}>
-              <div>
-                <img src={studentDetails.wizardingschool.imageUrl} />
-                <p>{studentDetails.wizardingschool.name}</p>
-              </div>
-            </Link>
+            <p>Score: {studentDetails.magicalAbilityScore}</p> 
+            {studentDetails.wizardingschool ? (
+              <Link to={`/schools/${studentDetails.wizardingschool.id}`}>
+                <div>
+                  <img src={studentDetails.wizardingschool.imageUrl} />
+                  <p>{studentDetails.wizardingschool.name}</p>
+                </div>
+              </Link>
+            ) : (
+              <p>Not in a school</p>
+            )
+            }
         </div>
       ) : (
         <p>Student doesnt exist</p>

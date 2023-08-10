@@ -8,6 +8,7 @@ import StudentView from "./StudentView";
 import { StudentProvider } from "./StudentContext";
 import { SchoolProvider } from "./SchoolContext";
 import SchoolView from "./SchoolView";
+import SchoolForm from "./SchoolForm";
 
 const Root = () => {
   return (

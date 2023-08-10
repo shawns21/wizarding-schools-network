@@ -1,10 +1,14 @@
 "use strict";
 
 const { WizardingSchools, Students } = require("../db");
+const bodyParser = require("body-parser");
 
 const router = require("express").Router();
 
 // require your database and place your routes here
+
+router.use(bodyParser.json());
+router.use(bodyParser.urlencoded({ extended: true }));
 
 router.get("/schools", async (req, res, next) => {
     try {
@@ -51,5 +55,64 @@ router.get("/students/:id", async (req, res, next) => {
     }
 });
 
+router.post("/schools", async (req, res, next) => {
+    try {
+
+       console.log(req.body);
+
+       const { name, address, description } = req.body;
+
+       const newSchool = await WizardingSchools.create({
+            name,
+            address,
+            description,
+       });
+
+       res.send(newSchool);
+
+    } catch (err){
+        next(err);
+    }
+})
+
+router.post("/schools", async (req, res, next) => {
+    try {
+
+       console.log(req.body);
+
+       const { name, address, description } = req.body;
+
+       const newSchool = await WizardingSchools.create({
+            name,
+            address,
+            description,
+       });
+
+       res.send(newSchool);
+
+    } catch (err){
+        next(err);
+    }
+})
+
+router.post("/students", async (req, res, next) => {
+    try {
+
+       console.log(req.body);
+
+       const { firstName, lastName, email } = req.body;
+
+       const newStudent = await Students.create({
+            firstName,
+            lastName,
+            email,
+       });
+
+       res.send(newStudent);
+
+    } catch (err){
+        next(err);
+    }
+})
 
 module.exports = router;

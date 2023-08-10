@@ -19,9 +19,12 @@ export const StudentProvider = ({ children }) => {
     fetchStudents();
   }, []);
 
+  const addStudent = (newStudent) => {
+        setStudents((prevStudents) => [...prevStudents, newStudent]);
+  };
 
   return (
-    <StudentContext.Provider value={{students, setStudents}}>
+    <StudentContext.Provider value={{students, setStudents, addStudent}}>
       {children}
     </StudentContext.Provider>
   );

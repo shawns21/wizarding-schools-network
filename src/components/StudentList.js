@@ -1,12 +1,17 @@
 import React from "react";
 import { useStudentContext } from "./StudentContext";
 import { Link } from "react-router-dom";
+import StudentForm from "./StudentForm";
 
 const StudentList = () => {
-  const { students } = useStudentContext();
+  const { students, addStudent } = useStudentContext();
 
   if (!students) {
     return <p>Loading students...</p>;
+  }
+
+  const handleStudentAdded = (newStudent) => {
+    addStudent(newStudent);
   }
 
   return (
@@ -20,6 +25,7 @@ const StudentList = () => {
               </div>
             </Link>
         ))}
+        <StudentForm onStudentAdded={handleStudentAdded}></StudentForm>
     </div>
   );
 };

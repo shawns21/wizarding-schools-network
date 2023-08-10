@@ -19,8 +19,12 @@ export const SchoolProvider = ({ children }) => {
         fetchSchools();
     }, []);
 
+    const addSchool = (newSchool) => {
+        setSchools((prevSchools) => [...prevSchools, newSchool]);
+    };
+
     return (
-        <SchoolContext.Provider value={{schools, setSchools}}>
+        <SchoolContext.Provider value={{schools, setSchools, addSchool}}>
             {children}
         </SchoolContext.Provider>
     );
