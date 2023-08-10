@@ -128,7 +128,7 @@ const students = [
     firstName: "Fluer",
     lastName: "Delacour",
     email: "fleur@beauxbatons.fr",
-    imageUrl: "https://i.ibb.co/c2WNq2D/krum.webp",
+    imageUrl: "https://openpsychometrics.org/tests/characters/test-resources/pics/HP/14.jpg",
     magicalAbilityScore: 3.4,
   },
 ];
