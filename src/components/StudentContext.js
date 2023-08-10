@@ -20,11 +20,15 @@ export const StudentProvider = ({ children }) => {
   }, []);
 
   const addStudent = (newStudent) => {
-        setStudents((prevStudents) => [...prevStudents, newStudent]);
+      setStudents((prevStudents) => [...prevStudents, newStudent]);
   };
 
+  const removeStudent = (studentId) => {
+      setStudents((prevStudents) => prevStudents.filter((student) => student.id !== studentId));
+  }
+
   return (
-    <StudentContext.Provider value={{students, setStudents, addStudent}}>
+    <StudentContext.Provider value={{students, setStudents, addStudent, removeStudent}}>
       {children}
     </StudentContext.Provider>
   );

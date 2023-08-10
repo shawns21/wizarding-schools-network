@@ -1,14 +1,16 @@
 import React, {useState, useEffect} from "react";
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
+import { useSchoolContext } from "./SchoolContext";
+import SchoolUpdateForm from "./SchoolUpdateForm";
 
 const SchoolView = () => {
   
   const { schoolId } = useParams();
+  const { schools, setSchools } = useSchoolContext();
   const [schoolDetails, setSchoolDetails] = useState(null);
 
   useEffect(() => {
-
     async function fetchSchools() {
       try {
         const response = await axios.get(`/api/schools/${schoolId}`)
@@ -21,6 +23,31 @@ const SchoolView = () => {
     fetchSchools();
 
   }, [schoolId]);
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setSchoolDetails((prevSchoolDetails) => ({
+      ...prevSchoolDetails,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      await axios.put(`/api/schools/${schoolId}`, schoolDetails);
+      console.log("School updated successfully!");
+
+      setSchools((prevSchools) =>
+        prevSchools.map((school) =>
+          school.id === schoolId ? schoolDetails : school
+        )
+      );
+    } catch (error) {
+      console.error("Error updating school:", error);
+    }
+  };
 
   return (
     <div id="main">
@@ -45,6 +72,7 @@ const SchoolView = () => {
             ) : (
               <p>No Students</p>
             )}
+            <SchoolUpdateForm school={schoolDetails} handleInputChange={handleInputChange} handleSubmit={handleSubmit}></SchoolUpdateForm>
        </div>
       ) : (
         <p>School doesnt exist</p>

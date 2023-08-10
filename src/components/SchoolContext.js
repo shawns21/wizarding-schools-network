@@ -19,12 +19,18 @@ export const SchoolProvider = ({ children }) => {
         fetchSchools();
     }, []);
 
+    
+
     const addSchool = (newSchool) => {
         setSchools((prevSchools) => [...prevSchools, newSchool]);
     };
 
+    const removeSchool = (schoolId) => {
+        setSchools((prevSchools) => prevSchools.filter((school) => school.id !== schoolId));
+    };
+
     return (
-        <SchoolContext.Provider value={{schools, setSchools, addSchool}}>
+        <SchoolContext.Provider value={{schools, setSchools, addSchool, removeSchool}}>
             {children}
         </SchoolContext.Provider>
     );

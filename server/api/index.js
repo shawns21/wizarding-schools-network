@@ -73,7 +73,7 @@ router.post("/schools", async (req, res, next) => {
     } catch (err){
         next(err);
     }
-})
+});
 
 router.post("/schools", async (req, res, next) => {
     try {
@@ -93,7 +93,7 @@ router.post("/schools", async (req, res, next) => {
     } catch (err){
         next(err);
     }
-})
+});
 
 router.post("/students", async (req, res, next) => {
     try {
@@ -113,6 +113,37 @@ router.post("/students", async (req, res, next) => {
     } catch (err){
         next(err);
     }
-})
+});
+
+router.delete("/schools/:id", async (req, res, next) => {
+    try {
+        const school = await WizardingSchools.findOne({
+            where: { id: req.params.id },
+        });
+
+        await school.destroy();
+        res.status(204).send();
+
+    } catch(err){
+        next(err);
+    }
+});
+
+
+router.delete("/students/:id", async (req, res, next) => {
+    try {
+        const student = await Students.findOne({
+            where: { id: req.params.id },
+        });
+
+        await student.destroy();
+        res.status(204).send();
+
+    } catch(err){
+        next(err);
+    }
+});
+
+router.put("/school")
 
 module.exports = router;
