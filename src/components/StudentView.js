@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 const StudentView = () => {
   
@@ -30,9 +30,13 @@ const StudentView = () => {
             <img src={studentDetails.imageUrl}/>
             <p>{studentDetails.firstName}, {studentDetails.lastName}</p>
             <p>{studentDetails.email}</p>
-            <p>{studentDetails.magicAbilityScore}</p>
-            {studentDetails.wizardingschool ? (
-              <p>{studentDetails.wizardingschool.name}</p>) : (<p>Loading School.....</p>)}
+            <p>{studentDetails.magicAbilityScore}</p> 
+            <Link to={`/schools/${studentDetails.wizardingschool.id}`}>
+              <div>
+                <img src={studentDetails.wizardingschool.imageUrl} />
+                <p>{studentDetails.wizardingschool.name}</p>
+              </div>
+            </Link>
         </div>
       ) : (
         <p>Student doesnt exist</p>

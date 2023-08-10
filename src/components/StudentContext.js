@@ -4,7 +4,6 @@ import axios from "axios";
 const StudentContext = createContext();
 
 export const StudentProvider = ({ children }) => {
-  const [selectedStudent, setSelectedStudent] = useState(null);
   const [students, setStudents] = useState([]); // Initialize with an empty array
 
   useEffect(() => {
@@ -22,7 +21,7 @@ export const StudentProvider = ({ children }) => {
 
 
   return (
-    <StudentContext.Provider value={{ selectedStudent, setSelectedStudent, students, setStudents}}>
+    <StudentContext.Provider value={{students, setStudents}}>
       {children}
     </StudentContext.Provider>
   );

@@ -1,29 +1,26 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React from "react";
+import { useSchoolContext } from "./SchoolContext";
+import { Link } from "react-router-dom";
 
 const SchoolList = () => {
 
-  const [schools, setSchools] = useState([]);
+  const { schools } = useSchoolContext();
   
-  useEffect(() => {
-    async function fetchSchool() {
-      const { data } = await axios.get("/api/schools");
-      console.log(data);
-      setSchools(data);
-    }
-
-    fetchSchool();
-  }, []);
+  if (!schools) {
+    return <p>Loading students....</p>;
+  }
 
   return (
     <div id="main">
       <h1>School List</h1>
-        {schools.map((school) =>
-          <div>
-            <img src={school.imageUrl}/>
-            <p>{school.name}</p>
-          </div>
-        )}
+        {schools.map((school) => (
+            <Link to={`/schools/${school.id}`}>
+              <div>
+                <img src={school.imageUrl} />
+                <p>{school.name}</p>
+              </div>
+            </Link>
+        ))}
     </div>
   );
 };
