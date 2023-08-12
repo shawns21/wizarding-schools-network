@@ -174,7 +174,7 @@ router.put("/schools/:id", async (req, res, next) => {
 router.put("/students/:id", async (req, res, next) => {
     try {
         const studentId = req.params.id;
-        const { firstName, lastName, email } = req.body;
+        const { firstName, lastName, email, wizardingschoolId } = req.body;
 
         const student = await Students.findOne({
             where: { id: studentId },
@@ -187,6 +187,7 @@ router.put("/students/:id", async (req, res, next) => {
         student.firstName = firstName;
         student.lastName = lastName;
         student.email = email;
+        student.wizardingschoolId = wizardingschoolId;
 
         await student.save();
 

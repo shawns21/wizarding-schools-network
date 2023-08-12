@@ -43,6 +43,26 @@ const SchoolView = () => {
     }
   };
 
+  const UnenrollStudent = async (student) => {
+    try {
+      // Make a request to the backend to unenroll the student
+      const updatedStudent = { ...student, wizardingschoolId: null };
+      const response = await axios.put(`/api/students/${student.id}`, updatedStudent);
+      
+      const updatedStudentsList = schoolDetails.students.filter((s) => s.id !== student.id);
+
+      // Update the schoolDetails with the updated students list
+      setSchoolDetails((prevDetails) => ({
+        ...prevDetails,
+        students: updatedStudentsList,
+      }));
+
+      console.log(`Student ${student.id} unenrolled successfully.`);
+    } catch (error) {
+      console.error(`Error unenrolling student ${student.id}:`, error);
+    }
+  };
+
   return (
     <div id="main">
       <h1>School Details</h1>
@@ -56,12 +76,15 @@ const SchoolView = () => {
 
             {schoolDetails.students.length > 0 ? (
               schoolDetails.students.map((student) => (
-                <Link to={`/students/${student.id}`}>
-                  <div>
-                    <img src={student.imageUrl} />
-                    <p>{student.firstName} {student.lastName}</p>
-                  </div>
-                </Link>
+                <div>
+                  <button onClick={() => {UnenrollStudent(student)}}>Unenroll Student</button>
+                  <Link to={`/students/${student.id}`}>
+                    <div>
+                      <img src={student.imageUrl} />
+                      <p>{student.firstName} {student.lastName}</p>
+                    </div>
+                  </Link>
+                </div>
               ))
             ) : (
               <p>No Students</p>
