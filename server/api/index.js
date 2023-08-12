@@ -144,6 +144,57 @@ router.delete("/students/:id", async (req, res, next) => {
     }
 });
 
-router.put("/school")
+router.put("/schools/:id", async (req, res, next) => {
+    try {
+        const schoolId = req.params.id;
+        const { name, address, description } = req.body;
+
+        const school = await WizardingSchools.findOne({
+            where: { id: schoolId },
+        });
+
+        if (!school) {
+            return res.status(404).send("School not found");
+        }
+
+        // Update the school properties
+        school.name = name;
+        school.address = address;
+        school.description = description;
+
+        await school.save();
+
+        res.status(200).send(school);
+
+    } catch (err) {
+        next(err);
+    }
+});
+
+router.put("/students/:id", async (req, res, next) => {
+    try {
+        const studentId = req.params.id;
+        const { firstName, lastName, email } = req.body;
+
+        const student = await Students.findOne({
+            where: { id: studentId },
+        });
+
+        if (!student) {
+            return res.status(404).send("Student not found");
+        }
+
+        student.firstName = firstName;
+        student.lastName = lastName;
+        student.email = email;
+
+        await student.save();
+
+        res.status(200).send(student);
+
+    } catch (err) {
+        next(err);
+    }
+});
 
 module.exports = router;

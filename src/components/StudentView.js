@@ -1,10 +1,13 @@
 import React, {useState, useEffect} from "react";
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
+import { useStudentContext } from "./StudentContext";
+import StudentUpdateForm from "./StudentUpdateForm";
 
 const StudentView = () => {
   
   const { studentId } = useParams();
+  const { handleStudentUpdate, setStudents } = useStudentContext();
   const [studentDetails, setStudentDetails] = useState(null);
 
   useEffect(() => {
@@ -21,6 +24,25 @@ const StudentView = () => {
     fetchStudent();
 
   }, [studentId]);
+
+  const handleUpdate = async (updatedStudentDetails) => {
+    try {
+      await axios.put(`/api/students/${studentId}`, updatedStudentDetails);
+      console.log("Student updated successfully!");
+
+      setStudents((prevStudents) =>
+        prevStudents.map((student) =>
+          student.id === studentId ? updatedStudentDetails : student
+        )
+      );
+
+      setStudentDetails(updatedStudentDetails);
+      handleStudentUpdate(updatedStudentDetails);
+    
+    } catch (error) {
+      console.error("Error updating student:", error);
+    }
+  };
 
   return (
     <div id="main">
@@ -42,6 +64,7 @@ const StudentView = () => {
               <p>Not in a school</p>
             )
             }
+            <StudentUpdateForm student={studentDetails} handleUpdate={handleUpdate}></StudentUpdateForm>
         </div>
       ) : (
         <p>Student doesnt exist</p>

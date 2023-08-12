@@ -19,8 +19,6 @@ export const SchoolProvider = ({ children }) => {
         fetchSchools();
     }, []);
 
-    
-
     const addSchool = (newSchool) => {
         setSchools((prevSchools) => [...prevSchools, newSchool]);
     };
@@ -29,8 +27,16 @@ export const SchoolProvider = ({ children }) => {
         setSchools((prevSchools) => prevSchools.filter((school) => school.id !== schoolId));
     };
 
+    const handleSchoolUpdate = (updatedSchool) => {
+        setSchools((prevSchools) =>
+            prevSchools.map((school) =>
+                school.id === updatedSchool.id ? updatedSchool : school
+            )
+        );
+    };
+
     return (
-        <SchoolContext.Provider value={{schools, setSchools, addSchool, removeSchool}}>
+        <SchoolContext.Provider value={{schools, setSchools, addSchool, removeSchool, handleSchoolUpdate}}>
             {children}
         </SchoolContext.Provider>
     );
