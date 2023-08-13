@@ -5,17 +5,34 @@ function StudentForm({ onStudentAdded }) {
   const [firstName, setfirstName] = useState("");
   const [lastName, setlastName] = useState("");
   const [email, setEmail] = useState("");
+  const [inputError, setInputError] = useState("");
 
   
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const response = await axios.post("/api/students", {
-        firstName,
-        lastName,
-        email,
-    });
 
-    onStudentAdded(response.data);
+    if (!firstName){
+      setInputError("First name cannot be empty");
+      return;
+    }
+    else if (!lastName){
+      setInputError("Last name cannot be empty");
+      return;
+    }
+    else if (!email){
+      setInputError("Email cannot be empty");
+      return;
+    }
+    else{
+      const response = await axios.post("/api/students", {
+          firstName,
+          lastName,
+          email,
+      });
+
+      onStudentAdded(response.data);
+      setInputError("");
+    };
   };
 
   return (
@@ -27,6 +44,7 @@ function StudentForm({ onStudentAdded }) {
           value={firstName}
           onChange={(e) => {setfirstName(e.target.value)}}
         />
+        {inputError && <p>{inputError}</p>}
       </label>
       <label>
         Last Name:

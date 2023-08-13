@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSchoolContext } from "./SchoolContext";
 import { Link } from "react-router-dom";
 import SchoolForm from "./SchoolForm";
@@ -7,6 +7,7 @@ import axios from "axios";
 const SchoolList = () => {
 
   const { schools, addSchool, removeSchool } = useSchoolContext();
+  const [fieldsFilled, setFieldsFilled] = useState(false);
   
   if (!schools) {
     return <p>Loading students....</p>;
@@ -35,7 +36,7 @@ const SchoolList = () => {
             </Link>
           </div>
         ))}
-        <SchoolForm onSchoolAdded={handleSchoolAdded}></SchoolForm>
+        <SchoolForm onSchoolAdded={handleSchoolAdded} setFieldsFilled={setFieldsFilled}></SchoolForm>
     </div>
   );
 };
