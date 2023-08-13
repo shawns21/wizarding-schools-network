@@ -28,12 +28,12 @@ const SchoolList = () => {
         {schools.map((school) => (
           <div>
             <button onClick={() => handleSchoolRemoved(school.id)}>Delete user</button>
-            <Link to={`/schools/${school.id}`} key={school.id}>
               <div>
-                <img src={school.imageUrl} />
+                <Link to={`/schools/${school.id}`} key={school.id}>
+                  <img src={school.imageUrl} />
+                </Link>
                 <p>{school.name}</p>
               </div>
-            </Link>
           </div>
         ))}
         <SchoolForm onSchoolAdded={handleSchoolAdded} setFieldsFilled={setFieldsFilled}></SchoolForm>

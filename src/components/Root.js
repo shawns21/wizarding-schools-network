@@ -8,7 +8,7 @@ import StudentView from "./StudentView";
 import { StudentProvider } from "./StudentContext";
 import { SchoolProvider } from "./SchoolContext";
 import SchoolView from "./SchoolView";
-import SchoolForm from "./SchoolForm";
+import NotFound from "./NotFound";
 
 const Root = () => {
   return (
@@ -22,6 +22,7 @@ const Root = () => {
             <Route path="/schools/:schoolId" element={<SchoolView />} />
             <Route path="/students" element={<StudentList />} />
             <Route path="/students/:studentId" element={<StudentView />} />
+            <Route path="*" element={<NotFound />}/>
           </Routes>
         </StudentProvider>
       </SchoolProvider>

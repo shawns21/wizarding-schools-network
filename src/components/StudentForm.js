@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useSchoolContext } from "./SchoolContext";
 
 function StudentForm({ onStudentAdded }) {
   const [firstName, setfirstName] = useState("");
   const [lastName, setlastName] = useState("");
   const [email, setEmail] = useState("");
   const [inputError, setInputError] = useState("");
+  const [ schools ] = useSchoolContext();
 
   
   const handleSubmit = async (event) => {
@@ -61,6 +63,8 @@ function StudentForm({ onStudentAdded }) {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
+      </label>
+      <label>
       </label>
       <button type="submit">Submit</button>
     </form>
