@@ -3,6 +3,7 @@ import axios from "axios";
 import { useParams, Link } from "react-router-dom";
 import { useSchoolContext } from "./SchoolContext";
 import SchoolUpdateForm from "./SchoolUpdateForm";
+import './styles/SchoolView.css';
 
 const SchoolView = () => {
   
@@ -64,35 +65,38 @@ const SchoolView = () => {
   };
 
   return (
-    <div id="main">
-      <h1>School Details</h1>
+    <div className="school-details-container">
+      <h1 className="page-title">School Details</h1>
       {schoolDetails ? (
-        <div>
-            <img src={schoolDetails.imageUrl}/>
-            <p>{schoolDetails.name}</p>
-            <p>{schoolDetails.address}</p>
-            <p>{schoolDetails.description}</p>
-            <p>Students</p>
-
+        <div className="details-content">
+          <div className="school-info">
+            <img src={schoolDetails.imageUrl} alt={schoolDetails.name} className="school-image" />
+            <p className="school-name">{schoolDetails.name}</p>
+            <p className="school-address">{schoolDetails.address}</p>
+            <p className="school-description">{schoolDetails.description}</p>
+          </div>
+          <div className="students-list">
+            <h2 className="students-title">Students</h2>
             {schoolDetails.students.length > 0 ? (
               schoolDetails.students.map((student) => (
-                <div>
-                  <button onClick={() => {UnenrollStudent(student)}}>Unenroll Student</button>
-                  <Link to={`/students/${student.id}`}>
-                    <div>
-                      <img src={student.imageUrl} />
-                      <p>{student.firstName} {student.lastName}</p>
+                <div key={student.id} className="student-item">
+                  <button className="unenroll-button" onClick={() => UnenrollStudent(student)}>Unenroll Student</button>
+                  <Link to={`/students/${student.id}`} className="student-link">
+                    <div className="student-info">
+                      <img src={student.imageUrl} alt={`${student.firstName} ${student.lastName}`} className="student-image" />
+                      <p className="student-name">{student.firstName} {student.lastName}</p>
                     </div>
                   </Link>
                 </div>
               ))
             ) : (
-              <p>No Students</p>
+              <p className="no-students">No Students</p>
             )}
-            <SchoolUpdateForm school={schoolDetails} handleUpdate={handleUpdate}></SchoolUpdateForm>
-       </div>
+          </div>
+          <SchoolUpdateForm school={schoolDetails} handleUpdate={handleUpdate} />
+        </div>
       ) : (
-        <p>School doesnt exist</p>
+        <p className="no-school">School doesn't exist</p>
       )}
     </div>
   );

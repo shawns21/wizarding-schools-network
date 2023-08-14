@@ -12,7 +12,9 @@ router.use(bodyParser.urlencoded({ extended: true }));
 
 router.get("/schools", async (req, res, next) => {
     try {
-        const schools = await WizardingSchools.findAll();
+        const schools = await WizardingSchools.findAll({
+            include: Students,
+        });
         res.send(schools);
     } catch(err) {
         next(err);
@@ -60,7 +62,7 @@ router.post("/schools", async (req, res, next) => {
 
        console.log(req.body);
 
-       const { name, address, description } = req.body;
+       const { name, address, description} = req.body;
 
        const newSchool = await WizardingSchools.create({
             name,
@@ -100,12 +102,13 @@ router.post("/students", async (req, res, next) => {
 
        console.log(req.body);
 
-       const { firstName, lastName, email } = req.body;
+       const { firstName, lastName, email, wizardingschoolId } = req.body;
 
        const newStudent = await Students.create({
             firstName,
             lastName,
             email,
+            wizardingschoolId,
        });
 
        res.send(newStudent);

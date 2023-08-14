@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import './styles/SchoolForm.css';
 
 function SchoolForm({ onSchoolAdded, setFieldsFilled }) {
   const [name, setName] = useState("");
@@ -36,37 +37,43 @@ function SchoolForm({ onSchoolAdded, setFieldsFilled }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
+  <div className="student-form-container">
+    <p className="form-title">Add a new school:</p>
+    <form className="student-form" onSubmit={handleSubmit}>
+      <label className="form-label">
         Name:
         <input
+          className="form-input"
           type="text"
           value={name}
           onChange={(e) => {
-            setName(e.target.value)
+            setName(e.target.value);
             setInputError("");
-          }}   
+          }}
         />
-        {inputError && <p>{inputError}</p>}
+        {inputError && <p className="error-message">{inputError}</p>}
       </label>
-      <label>
+      <label className="form-label">
         Address:
         <input
+          className="form-input"
           type="text"
           value={address}
           onChange={(e) => setAddress(e.target.value)}
         />
       </label>
-      <label>
+      <label className="form-label">
         Description:
         <input
+          className="form-input"
           type="text"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
       </label>
-      <button type="submit">Submit</button>
+      <button className="submit-button" type="submit">Submit</button>
     </form>
+  </div>
   );
 }
 

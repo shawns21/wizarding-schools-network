@@ -2,15 +2,17 @@ import React, { useState } from "react";
 import { useSchoolContext } from "./SchoolContext";
 import { Link } from "react-router-dom";
 import SchoolForm from "./SchoolForm";
+import SchoolOrderForm from "./SchoolOrderForm";
 import axios from "axios";
+import './styles/SchoolList.css';
 
 const SchoolList = () => {
 
-  const { schools, addSchool, removeSchool } = useSchoolContext();
+  const { schools, addSchool, removeSchool, orderSchools } = useSchoolContext();
   const [fieldsFilled, setFieldsFilled] = useState(false);
   
   if (!schools) {
-    return <p>Loading students....</p>;
+    return <p>Loading schools....</p>;
   }
 
   const handleSchoolAdded = (newSchool) => {
@@ -22,23 +24,40 @@ const SchoolList = () => {
     removeSchool(id);
   }
 
+  const handleSchoolOrdered = (orderedSchools) => {
+    orderSchools(orderedSchools);
+  }
+
   return (
-    <div id="main">
-      <h1>School List</h1>
-        {schools.map((school) => (
-          <div>
-            <button onClick={() => handleSchoolRemoved(school.id)}>Delete user</button>
-              <div>
-                <Link to={`/schools/${school.id}`} key={school.id}>
-                  <img src={school.imageUrl} />
-                </Link>
-                <p>{school.name}</p>
-              </div>
+  <div className="main-container">
+    <div className="side-panel">
+      <SchoolOrderForm schools={schools} handleSchoolOrdered={handleSchoolOrdered} />
+    </div>
+
+    <div className="school-list-container">
+      <h1 className="page-title">School List</h1>
+      <div className="school-list">
+        {schools.map((school, index) => (
+          <div key={school.id} className="school-item">
+            <div className="school-info">
+              <Link to={`/schools/${school.id}`} className="school-link">
+                <img src={school.imageUrl} alt={school.name} className="school-image" />
+                <p className="school-name">{school.name}</p>
+              </Link>
+            </div>
+            <button className="delete-button" onClick={() => handleSchoolRemoved(school.id)}>Delete School</button>
+            {index !== schools.length - 1 && <div className="separator" />}
           </div>
         ))}
-        <SchoolForm onSchoolAdded={handleSchoolAdded} setFieldsFilled={setFieldsFilled}></SchoolForm>
+        </div>
+        <br/>
+        <SchoolForm onSchoolAdded={handleSchoolAdded} setFieldsFilled={setFieldsFilled} />
+      </div>
     </div>
-  );
+);
+
 };
 
+
 export default SchoolList;
+

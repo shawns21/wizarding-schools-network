@@ -1,10 +1,15 @@
 import React, { useState } from "react";
+import { useSchoolContext } from "./SchoolContext";
+import './styles/StudentUpdateForm.css';
 
 const StudentUpdateForm = ({student, handleUpdate }) => {
     
     const [firstName, setfirstName] = useState("");
     const [lastName, setlastName] = useState("");
     const [email, setEmail] = useState("");
+    const [wizardingschoolId, setWizardingSchoolId] = useState(null);
+    const [inputError, setInputError] = useState("");
+    const { schools } = useSchoolContext();
    
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -15,32 +20,57 @@ const StudentUpdateForm = ({student, handleUpdate }) => {
             setlastName(value);
         } else if (name === "email") {
             setEmail(value);
+        } else if (name === "school"){
+            setWizardingSchoolId(value);
         }
     };
 
     const handleSubmit = (event) => {
-        event.preventDefault(); 
+        event.preventDefault();
 
-        const updatedStudent = {
-            ...student,
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-        };
+        let updatedStudent;
+
+        if (!firstName){
+            setInputError("First name cannot be empty");
+            return;
+        }
+        else if (!lastName){
+            setInputError("Last name cannot be empty");
+            return;
+        }
+        else if (!email){
+            setInputError("Email cannot be empty");
+            return;
+        }
+        else if (!wizardingschoolId){
+            setInputError("You must pick a school");
+            return;
+        }
+        else { 
+            updatedStudent = {
+                ...student,
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                wizardingschoolId: wizardingschoolId,
+            };
+        }
 
         handleUpdate(updatedStudent);
+        setInputError("");
     };
 
     return (
         <form onSubmit={handleSubmit}>
-            <label>firstName:</label>
+            {inputError && <p>{inputError}</p>}
+            <label>First Name:</label>
             <input
                 type="text"
                 name="firstName"
                 value={firstName}
                 onChange={handleChange}
             />
-            <label>lastName:</label>
+            <label>Last Name:</label>
             <input
                 type="text"
                 name="lastName"
@@ -54,6 +84,17 @@ const StudentUpdateForm = ({student, handleUpdate }) => {
                 value={email} 
                 onChange={handleChange}
             />
+            <label>
+            <select onChange={(e) => {
+                setWizardingSchoolId(e.target.value);
+                console.log(e.target.value);
+            }}>
+                <option value="">Change School</option> 
+                {schools.map((school) => (
+                    <option value={school.id}>{school.name}</option>
+                ))}
+            </select>
+            </label>
             <button type="submit">Save</button>
         </form>
     );

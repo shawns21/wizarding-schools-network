@@ -9,6 +9,7 @@ import { StudentProvider } from "./StudentContext";
 import { SchoolProvider } from "./SchoolContext";
 import SchoolView from "./SchoolView";
 import NotFound from "./NotFound";
+import './styles/global.css';
 
 const Root = () => {
   return (

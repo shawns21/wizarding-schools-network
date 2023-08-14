@@ -11,6 +11,7 @@ export const SchoolProvider = ({ children }) => {
             try {
                 const response = await axios.get('/api/schools');
                 setSchools(response.data);
+                console.log(response.data);
             } catch (error) {
                 console.error(error);
             }
@@ -35,8 +36,12 @@ export const SchoolProvider = ({ children }) => {
         );
     };
 
+    const orderSchools = (schools) => {
+        setSchools([...schools]);
+    };
+
     return (
-        <SchoolContext.Provider value={{schools, setSchools, addSchool, removeSchool, handleSchoolUpdate}}>
+        <SchoolContext.Provider value={{schools, setSchools, addSchool, removeSchool, handleSchoolUpdate, orderSchools}}>
             {children}
         </SchoolContext.Provider>
     );

@@ -5,7 +5,7 @@ import React, { useEffect } from "react";
 
 const Main = () => {
   return (
-    <div>
+    <div className="home">
       <h1>Welcome to the Wizarding Schools Network!</h1>
     </div>
   );

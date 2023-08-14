@@ -33,30 +33,39 @@ const SchoolUpdateForm = ({ school, handleUpdate }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>Name:</label>
-      <input
-        type="text"
-        name="name"
-        value={name}
-        onChange={handleChange}
-      />
-      <label>Address:</label>
-      <input
-        type="text"
-        name="address"
-        value={address} 
-        onChange={handleChange}
-      />
-      <label>Description:</label>
-      <input
-        type="text"
-        name="description"
-        value={description} 
-        onChange={handleChange}
-      />
-      <button type="submit">Save</button>
-    </form>
+    <form className="update-form" onSubmit={handleSubmit}>
+  <div className="form-group">
+    <label className="form-label">Name:</label>
+    <input
+      className="form-input"
+      type="text"
+      name="name"
+      value={name}
+      onChange={handleChange}
+    />
+  </div>
+  <div className="form-group">
+    <label className="form-label">Address:</label>
+    <input
+      className="form-input"
+      type="text"
+      name="address"
+      value={address}
+      onChange={handleChange}
+    />
+  </div>
+  <div className="form-group">
+    <label className="form-label">Description:</label>
+    <input
+      className="form-input"
+      type="text"
+      name="description"
+      value={description}
+      onChange={handleChange}
+    />
+  </div>
+  <button className="submit-button" type="submit">Save</button>
+  </form>
   );
 };
 

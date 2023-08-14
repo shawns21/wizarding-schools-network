@@ -4,13 +4,13 @@ import axios from "axios";
 const StudentContext = createContext();
 
 export const StudentProvider = ({ children }) => {
-  const [students, setStudents] = useState([]); // Initialize with an empty array
+  const [students, setStudents] = useState([]);
 
   useEffect(() => {
     async function fetchStudents() {
       try {
         const response = await axios.get('/api/students');
-        setStudents(response.data); // Set the students data
+        setStudents(response.data);
       } catch (error) {
         console.error(error);
       }
@@ -28,6 +28,7 @@ export const StudentProvider = ({ children }) => {
   }
 
   const handleStudentUpdate = (updatedStudent) => {
+      console.log(updatedStudent);
       setStudents((prevStudents) => 
           prevStudents.map((student) => 
               student.id == updatedStudent.id ? updatedStudent : student
@@ -35,8 +36,12 @@ export const StudentProvider = ({ children }) => {
       );
   };
 
+  const orderStudents = (students) => {
+    setStudents([...students]);
+  };
+
   return (
-    <StudentContext.Provider value={{students, setStudents, addStudent, removeStudent, handleStudentUpdate}}>
+    <StudentContext.Provider value={{students, setStudents, addStudent, removeStudent, handleStudentUpdate, orderStudents}}>
       {children}
     </StudentContext.Provider>
   );

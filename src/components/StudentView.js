@@ -3,12 +3,16 @@ import axios from "axios";
 import { useParams, Link } from "react-router-dom";
 import { useStudentContext } from "./StudentContext";
 import StudentUpdateForm from "./StudentUpdateForm";
+import { useSchoolContext } from "./SchoolContext";
+import './styles/StudentView.css';
 
 const StudentView = () => {
-  
+
+   
   const { studentId } = useParams();
   const { handleStudentUpdate, setStudents } = useStudentContext();
   const [studentDetails, setStudentDetails] = useState(null);
+  const { schools } = useSchoolContext();
 
   useEffect(() => {
 
@@ -35,7 +39,7 @@ const StudentView = () => {
           student.id === studentId ? updatedStudentDetails : student
         )
       );
-
+      
       setStudentDetails(updatedStudentDetails);
       handleStudentUpdate(updatedStudentDetails);
     
@@ -45,32 +49,37 @@ const StudentView = () => {
   };
 
   return (
-    <div id="main">
-      <h1>Student Details</h1>
-      {studentDetails ? (
-        <div>
-            <img src={studentDetails.imageUrl}/>
-            <p>{studentDetails.firstName}, {studentDetails.lastName}</p>
-            <p>{studentDetails.email}</p>
-            <p>Score: {studentDetails.magicalAbilityScore}</p> 
-            {studentDetails.wizardingschool ? (
-              <Link to={`/schools/${studentDetails.wizardingschool.id}`}>
-                <div>
-                  <img src={studentDetails.wizardingschool.imageUrl} />
-                  <p>{studentDetails.wizardingschool.name}</p>
-                </div>
-              </Link>
-            ) : (
-              <p>Not in a school</p>
-            )
-            }
-            <StudentUpdateForm student={studentDetails} handleUpdate={handleUpdate}></StudentUpdateForm>
-        </div>
-      ) : (
-        <p>Student doesnt exist</p>
-      )}
-    </div>
-  );
+  <div className="student-details-container">
+    <h1 className="page-title">Student Details</h1>
+    {studentDetails ? (
+      <div className="details-content">
+        <img src={studentDetails.imageUrl} alt={`${studentDetails.firstName} ${studentDetails.lastName}`} className="student-image" />
+        <p className="student-name">{studentDetails.firstName}, {studentDetails.lastName}</p>
+        <p className="student-email">{studentDetails.email}</p>
+        <p className="student-score">Score: {studentDetails.magicalAbilityScore}</p>
+        {studentDetails.wizardingschoolId ? (
+          <div className="student-school">
+            {schools.map((school) =>
+              school.id === parseInt(studentDetails.wizardingschoolId) ? (
+                <Link to={`/schools/${school.id}`} className="school-link">
+                  <div className="school-info">
+                    <img src={school.imageUrl} alt={school.name} className="school-image" />
+                    <p className="school-name">{school.name}</p>
+                  </div>
+                </Link>
+              ) : null
+            )}
+          </div>
+        ) : (
+          <p className="no-school">Not in a school</p>
+        )}
+        <StudentUpdateForm student={studentDetails} handleUpdate={handleUpdate} />
+      </div>
+    ) : (
+      <p className="no-student">Student doesn't exist</p>
+    )}
+  </div>
+);
 };
 
 export default StudentView;
