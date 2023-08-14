@@ -32,6 +32,8 @@ const SchoolList = () => {
   <div className="main-container">
     <div className="side-panel">
       <SchoolOrderForm schools={schools} handleSchoolOrdered={handleSchoolOrdered} />
+      <br/>
+      <SchoolForm onSchoolAdded={handleSchoolAdded} setFieldsFilled={setFieldsFilled} />
     </div>
 
     <div className="school-list-container">
@@ -51,7 +53,6 @@ const SchoolList = () => {
         ))}
         </div>
         <br/>
-        <SchoolForm onSchoolAdded={handleSchoolAdded} setFieldsFilled={setFieldsFilled} />
       </div>
     </div>
 );

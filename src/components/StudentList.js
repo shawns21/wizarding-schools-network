@@ -30,6 +30,8 @@ const StudentList = () => {
   <div className="main-container">
     <div className="side-panel">
       <StudentOrderForm students={students} handleStudentOrdered={handleStudentOrdered} />
+      <br/>
+      <StudentForm onStudentAdded={handleStudentAdded} />
     </div>
     
     <div className="student-list-container">
@@ -46,7 +48,6 @@ const StudentList = () => {
         ))}
       </div>
       <br/>
-      <StudentForm onStudentAdded={handleStudentAdded} />
     </div>
   </div>
 );
